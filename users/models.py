@@ -17,7 +17,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=False, verbose_name="активный")
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     class Meta:
         verbose_name = "пользователь"
