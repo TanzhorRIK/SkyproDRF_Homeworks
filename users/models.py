@@ -15,6 +15,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=25, verbose_name="фамилия",
                                  **NULLABLE)
     is_active = models.BooleanField(default=False, verbose_name="активный")
+    moderator = models.BooleanField(default=False, verbose_name='Модератор')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ['first_name', 'last_name']
