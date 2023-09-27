@@ -14,7 +14,12 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     validators = [UrlValidator(field='video_url')]
     lesson_count = serializers.SerializerMethodField(read_only=True)
-    lessons = serializers.SerializerMethodField(read_only=True)
+    lessons = LessonSerializer(many=True, read_only=True)
+    subscription = serializers.SerializerMethodField(read_only=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.request = kwargs.get('context').get('request')
 
     class Meta:
         model = Course
@@ -31,6 +36,15 @@ class CourseSerializer(serializers.ModelSerializer):
                 lesson_list.append("Название:" + i[2])
             return lesson_list
         return None
+
+    def get_subscription(self, instance):
+        user = self.request.user
+        sub_all = instance.subscription.all()
+        for sub in sub_all:
+            if sub.subscriber == user:
+                return True
+        return False
+
 
 
 class PaymentsSerializer(serializers.ModelSerializer):

@@ -58,6 +58,6 @@ class PaymentsViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-class SubscriptionViewSet(ModelViewSet):
+class SubscriptionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
