@@ -15,4 +15,4 @@ RUN pip install -r /code/requirements.txt
 
 COPY . .
 
-CMD python manage.py runserver 0.0.0.0:8077
+CMD python manage.py runserver
