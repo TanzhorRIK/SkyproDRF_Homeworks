@@ -79,11 +79,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgresDRF',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '1234567'
+        'PASSWORD': 'postgres',
+        'PORT': 5432,
+        'HOST': 'pgdrf'
     }
 }
+ALLOWED_HOSTS = ['*']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

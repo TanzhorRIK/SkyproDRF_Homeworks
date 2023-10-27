@@ -1,26 +1,36 @@
-version: '3'
+version: '3.3'
 
 services:
-  db:
+  pgdrf:
     image: postgres
-    env_file:
-      - venv
+    container_name: pgdrf
     environment:
-      POSTGRES_DB: postgresDRF
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234567
-      PGDATA: ~/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready']
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+#      POSTGRES_PORT: 5432
+#      POSTGRES_HOST_AUTH_METHOD: trust
+#      PGDATA: ~/var/lib/postgresql/data/
+    volumes:
+       - ./data/db:/var/lib/postgresql
+#    ports:
+#      - '5432:54320'
+#    healthcheck:
+#      test: ['CMD-SHELL', 'pg_isready']
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+
+
+
   app:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
+
+    command: >
+      bash -c "python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000"
+
     ports:
       - '8000:8000'
     depends_on:
-      - db
+      - pgdrf
